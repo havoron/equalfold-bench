@@ -30,7 +30,7 @@ func BenchmarkEqualFold_WithoutIf(b *testing.B) {
 }
 
 /*
-	BenchmarkEqualFold_Cyrillic-8   	 5179902	       226 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkEqualFold_Cyrillic-8   	 5418788	       220 ns/op	       0 B/op	       0 allocs/op
 	BenchmarkEqualFold_Cyrillic-8   	 5225479	       221 ns/op	       0 B/op	       0 allocs/op
 	BenchmarkEqualFold_Cyrillic-8   	 5380099	       221 ns/op	       0 B/op	       0 allocs/op
 */
@@ -138,13 +138,26 @@ func BenchmarkEqual_SingleToLower(b *testing.B) {
 }
 
 /*
-	BenchmarkEqual_DoubleToLower-8   	21396324	        53.5 ns/op	       8 B/op	       1 allocs/op
-	BenchmarkEqual_DoubleToLower-8   	23138907	        52.4 ns/op	       8 B/op	       1 allocs/op
-	BenchmarkEqual_DoubleToLower-8   	22685638	        54.2 ns/op	       8 B/op	       1 allocs/op
+	BenchmarkEqual_DoubleToLower-8   	15813963	        76.1 ns/op	      16 B/op	       2 allocs/op
+	BenchmarkEqual_DoubleToLower-8   	15032017	        80.2 ns/op	      16 B/op	       2 allocs/op
+	BenchmarkEqual_DoubleToLower-8   	15040250	        78.4 ns/op	      16 B/op	       2 allocs/op
 */
 func BenchmarkEqual_DoubleToLower(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		if strings.ToLower("abcxyz") != strings.ToLower("abcXYZ") {
+		if strings.ToLower("ABCxyz") != strings.ToLower("abcXYZ") {
+			b.Errorf("got %v but want %v", true, false)
+		}
+	}
+}
+
+/*
+	BenchmarkEqual_DoubleToLower_Cyrillic-8   	 2654726	       453 ns/op	      32 B/op	       2 allocs/op
+	BenchmarkEqual_DoubleToLower_Cyrillic-8   	 2645784	       455 ns/op	      32 B/op	       2 allocs/op
+	BenchmarkEqual_DoubleToLower_Cyrillic-8   	 2527564	       473 ns/op	      32 B/op	       2 allocs/op
+*/
+func BenchmarkEqual_DoubleToLower_Cyrillic(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		if strings.ToLower("абвГДЕ") != strings.ToLower("АБВгде") {
 			b.Errorf("got %v but want %v", true, false)
 		}
 	}
